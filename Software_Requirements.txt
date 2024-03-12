@@ -1,0 +1,7 @@
+-Functional requirements
+   FR1) The software must require identification of the patient, this identification consisting of Full name, Age (Day/Month/Year), CPF, Main Complaint, Symptoms, and suggestive ICD (International Statistical Classification of Diseases and Related Health Problems);
+
+-Non funcitional requirements
+    
+    NFR1) The data that makes up the identification of each patient must be organized in the form of structs that will be identified by the name Identity;
+   
