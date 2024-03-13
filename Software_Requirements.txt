@@ -4,4 +4,5 @@
 -Non funcitional requirements
     
     NFR1) The data that makes up the identification of each patient must be organized in the form of structs that will be identified by the name Identity;
+    NFR2 )Validation of the CPF number;
    
