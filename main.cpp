@@ -24,11 +24,99 @@ void flush_in()
     }while(ch!=EOF && ch!='\n');
 }
 
+
+int validacao_CPF(char CPF[12] , int posicao_dados )
+{
+    unsigned short int   d1_cpf, d2_cpf, d3_cpf , d4_cpf , d5_cpf , d6_cpf , d7_cpf, d8_cpf , d9_cpf , d10_cpf , d11_cpf  , Resto , Resto2;
+
+    //Digitos do CPF
+ 
+    d11_cpf=CPF[10] -'0';
+
+    d10_cpf=CPF[9] - '0';
+ 
+    d9_cpf=CPF[8] - '0';
+ 
+    d8_cpf=CPF[7] - '0';
+ 
+    d7_cpf=CPF[6] - '0';
+ 
+    d6_cpf=CPF[5] - '0';
+ 
+    d5_cpf=CPF[4] -'0';
+ 
+    d4_cpf=CPF[3]-'0';
+ 
+    d3_cpf=CPF[2]-'0';
+ 
+    d2_cpf=CPF[1]-'0';
+ 
+    d1_cpf=CPF[0]-'0';
+
+
+    
+
+    
+
+    Resto=(d1_cpf*10+d2_cpf*9+d3_cpf*8+d4_cpf*7+d5_cpf*6+d6_cpf*5+d7_cpf*4+d8_cpf*3+d9_cpf*2)*10%11;
+
+    if(Resto==10)
+    {
+        Resto=0;
+    }
+
+    if(Resto==d10_cpf)
+    {
+       
+       
+       
+       Resto2=(d1_cpf*11+d2_cpf*10+d3_cpf*9+d4_cpf*8+d5_cpf*7+d6_cpf*6+d7_cpf*5+d8_cpf*4+d9_cpf*3+d10_cpf*2)*10%11;
+
+       if(Resto2==10)
+       {
+        Resto2=0;
+       }
+
+       if(Resto2==d11_cpf)
+       {
+        return 0;
+       }
+       else 
+       {
+
+        printf("CPF invalido digite novamente\n");
+        flush_in();
+        fgets(CPF,12, stdin);
+
+        return validacao_CPF(CPF, posicao_dados);
+       }
+    }
+    else
+    {
+        printf("CPF invalido digite novamente:\n");
+        flush_in();
+        fgets(CPF,12,stdin);
+
+        return validacao_CPF(CPF, posicao_dados);
+
+
+    }
+
+
+   
+
+    
+
+
+
+}
 void entrada_dados(Identificao dados[quant_paciente], int *posicao)
 
 {
 
-int posicao_dados=*posicao;
+int posicao_dados=*posicao ;
+
+
 
 char espaco;  
 
@@ -71,8 +159,10 @@ char espaco;
 
 
  fgets(dados[posicao_dados].CPF , 12 , stdin);
-
+ validacao_CPF(dados[posicao_dados].CPF , posicao_dados );
  
+
+
  printf("\n");
 
  
