@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string>
 #define quant_paciente  900
+#define ano 2024
 
 using namespace std;
 
@@ -31,6 +32,8 @@ int posicao_dados=*posicao;
 
 char espaco;  
 
+//Leitura do nome
+
  printf("Nome completo do paciente:\n");
 
  fgets (dados[posicao_dados].Nome_Completo , 100 , stdin);
@@ -40,15 +43,29 @@ char espaco;
 
  
 
- 
+ //Leitura da idade
 
  printf("Digite a data de nascimento do paciente (Dia/Mes/Ano)(00/00/0000):\n");
  
  
-
  scanf("%d%c%d%c%d" , &dados[posicao_dados].Idade_dia , &espaco , &dados[posicao_dados].Idade_mes , &espaco , &dados[posicao_dados].Idade_ano);
  
  flush_in();
+
+ //Validacao idade
+
+ while(dados[posicao_dados].Idade_dia >31 || dados[posicao_dados].Idade_dia<1 || dados[posicao_dados].Idade_mes<1 || dados[posicao_dados].Idade_mes>12 || dados[posicao_dados].Idade_ano>ano)
+ {
+    
+    printf("Data de nascimento invalido, digite novamente\n");
+    scanf("%d%c%d%c%d" , &dados[posicao_dados].Idade_dia , &espaco , &dados[posicao_dados].Idade_mes , &espaco , &dados[posicao_dados].Idade_ano);
+
+    flush_in();
+
+    
+ }
+
+ //Entrada CPF do paciente
 
  printf("\nCPF do paciente:\n");
 
@@ -59,7 +76,8 @@ char espaco;
  printf("\n");
 
  
- 
+ //Queixa principal do paciente
+
  printf("Queixa principal:\n");
  flush_in();
 
@@ -70,6 +88,7 @@ char espaco;
  printf("\n");
 
  
+//Sintomas do paciente
 
  printf("Sintomas do paciente:\n");
  
@@ -81,6 +100,7 @@ char espaco;
  printf("\n");
  
  
+//CID do paciente
 
  printf("CID Sugestivo do paciente:\n");
  
