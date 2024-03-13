@@ -8,10 +8,13 @@ using namespace std;
 
 struct Identificao {
     
-    char Nome_Completo[100] , Queixa_principal[1000] , Sintomas[1000] , CPF[12];
-    int Idade_dia , Idade_mes, Idade_ano , numero_CID;
+    char Nome_Completo[100] , Queixa_principal[1000] , Sintomas[1000] , CPF[12] , numero_CID[6];
+    int Idade_dia , Idade_mes, Idade_ano ;
     
 };
+
+
+
 
 void flush_in()
 {
@@ -24,8 +27,8 @@ void flush_in()
     }while(ch!=EOF && ch!='\n');
 }
 
-
 int validacao_CPF(char CPF[12] , int posicao_dados )
+
 {
     unsigned short int   d1_cpf, d2_cpf, d3_cpf , d4_cpf , d5_cpf , d6_cpf , d7_cpf, d8_cpf , d9_cpf , d10_cpf , d11_cpf  , Resto , Resto2;
 
@@ -110,6 +113,51 @@ int validacao_CPF(char CPF[12] , int posicao_dados )
 
 
 }
+
+int validacao_CID(char numero_CID[6], int posicao_dados)
+{   
+    
+
+   
+
+    if(numero_CID[0]== 'A' , 'B', 'C' , 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' )
+    {
+
+        if(numero_CID[1]=='0', '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' && numero_CID[2]=='0', '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' && numero_CID[5]=='0', '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9'   && numero_CID[3]=='.' )
+        {
+
+            return 0;
+
+        }
+        else 
+        {   
+            
+            printf("Numero CID invalido digite novamente:\n");
+            
+            
+
+            fgets(numero_CID , 6 , stdin);
+            
+
+            return validacao_CID(numero_CID, posicao_dados);
+        }
+
+    }
+    else 
+    {   
+        
+        printf("Numero CID invalido digite novamente:\n");
+        
+       
+
+        fgets(numero_CID, 6 , stdin);
+
+        return validacao_CID(numero_CID , posicao_dados);
+    }
+
+}
+
+
 void entrada_dados(Identificao dados[quant_paciente], int *posicao)
 
 {
@@ -185,16 +233,23 @@ char espaco;
 
  
  fgets(dados[posicao_dados].Sintomas , 1000 , stdin);
-
+ 
 
  printf("\n");
+
+
  
  
 //CID do paciente
 
  printf("CID Sugestivo do paciente:\n");
  
- scanf("%d" , &dados[posicao_dados].numero_CID);
+ fgets(dados[posicao_dados].numero_CID, 6 , stdin );
+
+ 
+
+ validacao_CID(dados[posicao_dados].numero_CID , posicao_dados);
+
  
  printf("\n");
 
@@ -229,7 +284,7 @@ int main()
     printf("%s\n" , dados[0].CPF); // CPF
     printf("%s\n" , dados[0].Queixa_principal); // Queixa 
     printf("%s\n" , dados[0].Sintomas); // Sintomas
-    printf("%d\n", dados[0].numero_CID); // CID
+    printf("%s\n", dados[0].numero_CID); // CID
     printf("%d\n" , posicao_dados);
 
 
