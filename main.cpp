@@ -162,11 +162,12 @@ void entrada_dados(Identificao dados[quant_paciente], int *posicao)
 
 {
 
-int posicao_dados=*posicao ;
+int posicao_dados=*posicao , item, correcao;
 
 
+char espaco , confirmacao[1] ; 
 
-char espaco;  
+
 
 //Leitura do nome
 
@@ -255,8 +256,176 @@ char espaco;
 
  flush_in();
 
+ //PAINEL DE CONFIRMACAO DOS DADOS DO PACIENTE CADASTRADO
 
- *posicao+=1;
+ printf("DADOS DO PACIENTE\n");
+ printf("1)NOME : %s\n" , dados[*posicao].Nome_Completo); // Nome
+ printf("2)DATA DE NASCIMENTO :%d/%d/%d\n" , dados[*posicao].Idade_dia , dados[0].Idade_mes , dados[0].Idade_ano);// Idade
+ printf("3)CPF = %s\n" , dados[*posicao].CPF); // CPF
+ printf("4)QUEIXA PRINCIPAL =%s\n" , dados[*posicao].Queixa_principal); // Queixa 
+ printf("5)SINTOMAS =%s\n" , dados[*posicao].Sintomas); // Sintomas
+ printf("6)CID SUGESTIVO=%s\n", dados[*posicao].numero_CID); // CID
+ printf("\n\n");
+
+ printf("Confirma os dados do paciente, caso estejam corretos digite S , caso queira editar algum dos dados digite N\n");
+
+
+ scanf("%c" , &confirmacao[0]);
+
+ while(confirmacao[0]!='S' && confirmacao[0]!='s' && confirmacao[0]!='N' && confirmacao[0]!='n')
+ {
+    printf("\nOpcao invalida, digite S ou N\n");
+    scanf("%c" , &confirmacao[0]);
+ }
+
+//Caso os dados estejam certos 
+ if((confirmacao[0]=='S'|| confirmacao[0]=='s'))
+ {  
+    printf("Dados gravados com suscesso\nAperte alguma tecla para o programa retornar ao menu\n");
+    system("pause");
+    system("cls");
+    *posicao+=1;
+ }
+ else
+ {  
+    //Qual dos itens o usuario deseja alterar, somente um item pode ser alterado , em caso de multiplos dados incorrectos , apague a ficha e reescreva novamente
+    printf("Digite o numero do item que deseja editar (1 ao 6)");
+    scanf("%d" , &item);
+
+    while(item<1 || item>6)
+    {
+        printf("Numero do item invalido , digite novamente (1 ao 6)\n");
+        scanf("%d" , &item);
+    }
+
+    if(item==1)
+    {  
+       flush_in();
+       printf("\nNovo nome:");
+       fgets(dados[*posicao].Nome_Completo , 100 , stdin);
+       printf("\n");
+
+    }
+    else
+    {
+        if(item==2)
+        {
+            printf("DATA DE NASCIMENTO:\n");
+            
+            scanf("%d%c%d%c%d" , &dados[posicao_dados].Idade_dia , &espaco , &dados[posicao_dados].Idade_mes , &espaco , &dados[posicao_dados].Idade_ano);
+
+            while(dados[posicao_dados].Idade_dia >31 || dados[posicao_dados].Idade_dia<1 || dados[posicao_dados].Idade_mes<1 || dados[posicao_dados].Idade_mes>12 || dados[posicao_dados].Idade_ano>ano)
+            {
+    
+            printf("Data de nascimento invalido, digite novamente\n");
+            scanf("%d%c%d%c%d" , &dados[posicao_dados].Idade_dia , &espaco , &dados[posicao_dados].Idade_mes , &espaco , &dados[posicao_dados].Idade_ano);
+
+            flush_in();
+
+            printf("\n");
+
+    
+            }
+        }
+        else 
+        {
+            if(item==3)
+            {   
+                flush_in();
+                printf("CPF  = ");
+                fgets(dados[posicao_dados].CPF , 12 , stdin);
+                validacao_CPF(dados[posicao_dados].CPF , posicao_dados );
+                printf("\n");
+            }
+            else
+            {
+                if(item==4)
+                {
+
+                    flush_in();
+                    printf("QUEIXA PRINCIPAL=");
+
+                    
+                    
+                    fgets(dados[posicao_dados].Queixa_principal , 1000 , stdin);
+
+                    printf("\n");
+
+                }
+                else 
+                {
+                    if(item==5)
+                    {   
+                        flush_in();
+                        printf("SINTOMAS=");
+                        
+                        fgets(dados[posicao_dados].Sintomas , 1000 , stdin);
+                        
+                        printf("\n");
+ 
+                    }
+                    else
+                    {   
+                        flush_in();
+                        printf("CID =");
+                        fgets(dados[posicao_dados].numero_CID, 6 , stdin );
+
+                        validacao_CID(dados[posicao_dados].numero_CID , posicao_dados);
+
+                        printf("\n");
+                    }
+                }
+            }
+        }
+    }
+
+//MENU COM DADOS CORRIGIDOS
+
+    printf("DADOS DO PACIENTE CORRIGIDO\n");
+    printf("1)NOME : %s\n" , dados[*posicao].Nome_Completo); // Nome
+    printf("2)DATA DE NASCIMENTO :%d/%d/%d\n" , dados[*posicao].Idade_dia , dados[0].Idade_mes , dados[0].Idade_ano);// Idade
+    printf("3)CPF = %s\n" , dados[*posicao].CPF); // CPF
+    printf("4)QUEIXA PRINCIPAL =%s\n" , dados[*posicao].Queixa_principal); // Queixa 
+    printf("5)SINTOMAS =%s\n" , dados[*posicao].Sintomas); // Sintomas
+    printf("6)CID SUGESTIVO=%s\n", dados[*posicao].numero_CID); // CID
+    printf("\n\n");
+    
+    printf("Para salvar essas dados digite 1, caso queira apagar digite 2\n");
+
+    scanf("%d" , &correcao);
+
+    while(correcao<1 || correcao>2)
+    {
+        printf("Escolha invalida digite 1 para salvar esses dados ou 2 caso queira apagar\n");
+        scanf("%d" , &correcao);
+    }
+
+    if(correcao==1)
+    {   
+        printf("Dados gravado com suscesso!\nAperte alguma tecla para retornar ao MENU\n");
+        system("pause");
+        system("cls");
+        *posicao+=1;
+    }
+    else
+    {
+         printf("Dados apagados com suscesso!\nAperte alguma tecla para retornar ao MENU\n");
+         system("pause");
+         system("cls");
+    }
+    
+    system("pause");
+    
+ }
+
+
+ 
+
+ 
+
+
+
+ 
 
  
 
@@ -278,7 +447,8 @@ int main()
 
     
     entrada_dados(dados, pont);
-
+   
+   
     printf("%s\n" , dados[0].Nome_Completo); // Nome
     printf("%d/%d/%d\n" , dados[0].Idade_dia , dados[0].Idade_mes , dados[0].Idade_ano);// Idade
     printf("%s\n" , dados[0].CPF); // CPF
@@ -286,6 +456,7 @@ int main()
     printf("%s\n" , dados[0].Sintomas); // Sintomas
     printf("%s\n", dados[0].numero_CID); // CID
     printf("%d\n" , posicao_dados);
+    
 
 
 
