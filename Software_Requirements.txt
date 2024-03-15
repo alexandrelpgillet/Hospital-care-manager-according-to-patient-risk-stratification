@@ -9,4 +9,5 @@
     NFR2 )Validation of the CPF number;
     NFR3)Birthday Validation;
     NFR4 ) CID Validation;
+    NFR5 ) The software must have a visual Menu for the user, this will be printed on the user's screen and must contain the following options: Service Queue, Patient Registration, Search for Patient, Exit.
    
