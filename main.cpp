@@ -1,17 +1,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string>
-#define quant_paciente  900
+#define quant_paciente  900 //quantidade maxima de pacientes que pode ser armazenada simultaneamente
 #define ano 2024
 
 using namespace std;
+
+
 
 struct Identificao {
     
     char Nome_Completo[100] , Queixa_principal[1000] , Sintomas[1000] , CPF[12] , numero_CID[6];
     int Idade_dia , Idade_mes, Idade_ano ;
     
-};
+}dados[quant_paciente];
 
 
 
@@ -412,9 +414,11 @@ char espaco , confirmacao[1] ;
          printf("Dados apagados com suscesso!\nAperte alguma tecla para retornar ao MENU\n");
          system("pause");
          system("cls");
+         
+         
     }
     
-    system("pause");
+   
     
  }
 
@@ -431,7 +435,172 @@ char espaco , confirmacao[1] ;
 
 }
 
+int menu(int *p)
+{
+    
+    char pagina[12][21] , resposta_usuario_menu;
+    
+    //formatação da pagina do MENU 
+    for(int i = 0 ; i<12 ; i++)
+    {
 
+        for(int i2=0 ; i2<21; i2++)
+        {
+            if(i==0 || i==11)
+            {   
+
+                pagina[i][i2]='#';
+            }
+            else
+            {
+                if(i2==0 || i2==20)
+                {
+                pagina[i][i2]='#';
+
+                }
+                else 
+                {
+                   pagina [i][i2]=' ';
+                }
+            }
+           
+        }
+        
+
+    }
+    
+    //Opcoes do menu 
+    pagina[1][8]='M';
+    pagina[1][9]='E';
+    pagina[1][10]='N';
+    pagina[1][11]='U';
+    
+    pagina[10][6]='4';
+    pagina[10][7]=')';
+    pagina[10][8]='S';
+    pagina[10][9]='A';
+    pagina[10][10]='I';
+    pagina[10][11]='R';
+
+    pagina[3][1]='1';
+    pagina[3][2]=')';
+    pagina[3][3]='F';
+    pagina[3][4]='I';
+    pagina[3][5]='L';
+    pagina[3][6]='A';
+    pagina[3][7]=' ';
+    pagina[3][8]='A';
+    pagina[3][9]='T';
+    pagina[3][10]='E';
+    pagina[3][11]='N';
+    pagina[3][12]='D';
+    pagina[3][13]='I';
+    pagina[3][14]='M';
+    pagina[3][15]='E';
+    pagina[3][16]='N';
+    pagina[3][17]='T';
+    pagina[3][18]='O';
+
+
+    pagina[5][1]='2';
+    pagina[5][2]=')';
+    pagina[5][3]='C';
+    pagina[5][4]='A';
+    pagina[5][5]='D';
+    pagina[5][6]='A';
+    pagina[5][7]='S';
+    pagina[5][8]='T';
+    pagina[5][9]='R';
+    pagina[5][10]='O';
+    pagina[5][11]=' ';
+    pagina[5][12]='P';
+    pagina[5][13]='A';
+    pagina[5][14]='C';
+    pagina[5][15]='I';
+    pagina[5][16]='E';
+    pagina[5][17]='N';
+    pagina[5][18]='T';
+    pagina[5][19]='E';
+
+
+    pagina[7][1]='3';
+    pagina[7][2]=')';
+    pagina[7][3]='B';
+    pagina[7][4]='U';
+    pagina[7][5]='S';
+    pagina[7][6]='C';
+    pagina[7][7]='A';
+    pagina[7][8]='R';
+    pagina[7][9]=' ';
+    pagina[7][10]='P';
+    pagina[7][11]='A';
+    pagina[7][12]='C';
+    pagina[7][13]='I';
+    pagina[7][14]='E';
+    pagina[7][15]='N';
+    pagina[7][16]='T';
+    pagina[7][17]='E';
+
+
+
+    for(int i= 0 ; i<12; i++)
+    {
+        for(int i2 = 0 ; i2<21; i2++)
+        {
+            printf("%c" , pagina[i][i2]);
+        }
+
+        printf("\n");
+    }
+
+    printf("\n");
+
+    printf("Digite o numero para acessar determinado aplicacao (1-Fila de atendimento , 2-Cadastro Paciente , 3-Buscar Paciente , 4-Desligar o programa\n)");
+
+    scanf("%c" , &resposta_usuario_menu);
+    
+    //Validacao da resposta do usuario
+
+    while(resposta_usuario_menu!='1' && resposta_usuario_menu!='2' && resposta_usuario_menu!='3' && resposta_usuario_menu!='4')
+    {  
+       flush_in();
+       printf("Numero escolhido invalido , digite novamente\n");
+       scanf("%c" , &resposta_usuario_menu);
+    }
+   
+   //Switch case para cada opcao de escolha do usuario
+   switch(resposta_usuario_menu)
+   {
+
+    case '1':
+       
+
+    case '2':
+        
+        flush_in();
+
+        system("cls");
+
+        entrada_dados(dados, p);
+
+        flush_in();
+
+        return menu (p);
+
+    case '3':
+
+       
+    
+    case '4':
+        
+        return 0;
+       
+    
+   }
+    
+      
+
+}
 
 
 int main()
@@ -443,9 +612,15 @@ int main()
     
     pont  = &posicao_dados;
 
-    Identificao dados[quant_paciente];
+    //Identificao dados[quant_paciente];
+
+    menu(pont);
 
     
+
+    printf("%d", posicao_dados);
+    
+    /*    
     entrada_dados(dados, pont);
    
    
@@ -457,6 +632,7 @@ int main()
     printf("%s\n", dados[0].numero_CID); // CID
     printf("%d\n" , posicao_dados);
     
+    */
 
 
 
