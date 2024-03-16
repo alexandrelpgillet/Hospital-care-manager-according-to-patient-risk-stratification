@@ -119,43 +119,79 @@ int validacao_CPF(char CPF[12] , int posicao_dados )
 int validacao_CID(char numero_CID[6], int posicao_dados)
 {   
     
+     int i , i2;
 
-   
+     char Letras_alfabeto[26] = {'A' , 'B', 'C' , 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'}, Digitos[10] = {'0', '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9'};
+     
+    //Verificacao primeiro digito do CID
 
-    if(numero_CID[0]== 'A' , 'B', 'C' , 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' )
+    for(i=0; i<26 && numero_CID[0]!=Letras_alfabeto[i]; i++)
+    {}
+
+    flush_in();
+
+    
+
+    if(i==26)
     {
-
-        if(numero_CID[1]=='0', '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' && numero_CID[2]=='0', '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' && numero_CID[5]=='0', '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9'   && numero_CID[3]=='.' )
+        printf("NUMERO CID INVALIDO DIGITE NOVAMENTE:\n");
+        
+        fgets(numero_CID , 6 , stdin);
+        
+        return validacao_CID(numero_CID, posicao_dados);
+    }
+    else
+    {
+        for(i=1 ; i<3 ; i++)
         {
+            for(i2=0 ; i2<10 && numero_CID[i]!=Digitos[i2] ; i2++)
+            {}
 
-            return 0;
-
+            if(i2==10)
+            {
+                i=4;
+            }
         }
-        else 
-        {   
+        
+        if(i==4)
+        {
+            printf("NUMERO CID INVALIDO DIGITE NOVAMENTE\n");
             
-            printf("Numero CID invalido digite novamente:\n");
+            fgets(numero_CID, 6 , stdin);
             
-            
-
-            fgets(numero_CID , 6 , stdin);
-            
-
             return validacao_CID(numero_CID, posicao_dados);
         }
+        else
+        {
+            if(numero_CID[3]!='.')
+            {
+                printf("NUMERO CID INVALIDO DIGITE NOVAMENTE\n");
+                
+                fgets(numero_CID , 6 , stdin);
+                
+                return validacao_CID(numero_CID, posicao_dados);
+            }
+            else
+            {
+                for(i=0 ; i<10 && numero_CID[4]!= Digitos[i]; i++)
+                {}
+                
+                if(i == 10 )
+                {
+                    printf("NUMERO CID INVALIDO DIGITE NOVAMENTE\n");
 
+                    fgets(numero_CID , 6 , stdin);
+
+                    return validacao_CID(numero_CID , posicao_dados);
+                }
+                else 
+                {
+                    return 0;
+                }
+            }
+        }
     }
-    else 
-    {   
-        
-        printf("Numero CID invalido digite novamente:\n");
-        
-       
 
-        fgets(numero_CID, 6 , stdin);
-
-        return validacao_CID(numero_CID , posicao_dados);
-    }
 
 }
 
@@ -255,8 +291,9 @@ char espaco , confirmacao[1] ;
 
  
  printf("\n");
+ system("cls");
 
- flush_in();
+ 
 
  //PAINEL DE CONFIRMACAO DOS DADOS DO PACIENTE CADASTRADO
 
@@ -380,6 +417,8 @@ char espaco , confirmacao[1] ;
             }
         }
     }
+
+    system("cls");
 
 //MENU COM DADOS CORRIGIDOS
 
@@ -653,6 +692,8 @@ int menu(int *p)
        
     
    }
+
+   return 0;
     
       
 
