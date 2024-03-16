@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string>
+#include <string.h>
 #define quant_paciente  900 //quantidade maxima de pacientes que pode ser armazenada simultaneamente
 #define ano 2024
 
@@ -435,10 +435,58 @@ char espaco , confirmacao[1] ;
 
 }
 
+int busca_nome(int *num_paciente)
+{
+    
+    char nome_paciente[100];
+    int i ;
+
+    
+    printf("DIGITE O NOME DO PACIENTE A SER BUSCARDO\n");
+    fgets(nome_paciente , 100 , stdin);
+
+
+    for(i =0 ; i<*num_paciente && strcmp(nome_paciente , dados[i].Nome_Completo) ; i++)
+    {}
+
+    if(i==*num_paciente)
+    {
+        printf("Nome do paciente nao encontrado na base de dados\n");
+      
+        system("pause");
+        system("cls");
+
+    }
+    else
+    {
+        printf("Paciente encontrado na base de dados do sistema\n");
+        printf("\n");
+
+        printf("NOME: %s\n" ,dados[i].Nome_Completo );
+        printf("DATA DE NASCIMENTO: %d/%d/%d\n" , dados[i].Idade_dia , dados[i].Idade_mes , dados[i].Idade_ano);
+        printf("CPF: %s\n" , dados[i].CPF );
+        printf("QUEIXA PRINCIPAL: %s\n" , dados[i].Queixa_principal);
+        printf("SINTOMAS: %s\n" , dados[i].Sintomas);
+        printf("CID: %s" , dados[i].numero_CID);
+        
+        
+        
+        system("pause");
+        system("cls");
+    
+        
+    }
+    
+    return 0;
+    
+
+}
+
 int menu(int *p)
 {
     
-    char pagina[12][21] , resposta_usuario_menu;
+    char pagina[12][21] , resposta_usuario_menu ;
+    
     
     //formatação da pagina do MENU 
     for(int i = 0 ; i<12 ; i++)
@@ -588,6 +636,14 @@ int menu(int *p)
         return menu (p);
 
     case '3':
+        
+        flush_in();
+        system("cls");
+
+        busca_nome(p);
+
+        
+        return menu(p);
 
        
     
@@ -601,6 +657,9 @@ int menu(int *p)
       
 
 }
+
+
+
 
 
 int main()
