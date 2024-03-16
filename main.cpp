@@ -442,7 +442,7 @@ int busca_nome(int *num_paciente)
     int i ;
 
     
-    printf("DIGITE O NOME DO PACIENTE A SER BUSCARDO\n");
+    printf("DIGITE O NOME DO PACIENTE A SER BUSCADO\n");
     fgets(nome_paciente , 100 , stdin);
 
 
