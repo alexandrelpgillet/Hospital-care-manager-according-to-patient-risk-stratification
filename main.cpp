@@ -1,22 +1,187 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <queue>
+
 #define quant_paciente  900 //quantidade maxima de pacientes que pode ser armazenada simultaneamente
 #define ano 2024
+#define dia 16
+#define mes 3
 
 using namespace std;
 
+queue <int> Fila_prioridade_por_lei_emergente;
+queue <int> Fila_prioridade_por_lei_muito_urgente;
+queue <int> Fila_prioridade_por_lei_urgente;
+queue <int> Fila_prioridade_por_lei_pouco_urgente;
+queue <int> Fila_prioridade_por_lei_nao_urgente;
+
+
+queue <int> Fila_normal_emergente;
+queue <int> Fila_normal_muito_urgente;
+queue <int> Fila_normal_urgente;
+queue <int> Fila_normal_pouco_urgente;
+queue <int> Fila_normal_nao_urgente;
 
 
 struct Identificao {
     
     char Nome_Completo[100] , Queixa_principal[1000] , Sintomas[1000] , CPF[12] , numero_CID[6];
-    int Idade_dia , Idade_mes, Idade_ano ;
+    int Idade_dia , Idade_mes, Idade_ano, ID;
     
 }dados[quant_paciente];
 
+struct Fila_atendimento
+{
+    int  M[900][3]={0};
+    
+
+}Fila_sistema;
 
 
+
+void gerador_id_fila(Identificao dados[quant_paciente] , int posicao)
+{
+   int id , resposta_usuario , resposta_risco_prioridade_por_lei , resposta_risco_normal;
+   unsigned short int   d1_cpf, d2_cpf, d3_cpf , d4_cpf , d5_cpf , d6_cpf , d7_cpf, d8_cpf , d9_cpf , d10_cpf , d11_cpf;
+
+
+    d11_cpf=dados[posicao].CPF[10] -'0';
+
+    d10_cpf=dados[posicao].CPF[9] -'0';
+ 
+    d9_cpf=dados[posicao].CPF[8] -'0';
+ 
+    d8_cpf=dados[posicao].CPF[7] -'0';
+ 
+    d7_cpf=dados[posicao].CPF[6] -'0';
+ 
+    d6_cpf=dados[posicao].CPF[5] -'0';
+ 
+    d5_cpf=dados[posicao].CPF[4] -'0';
+ 
+    d4_cpf=dados[posicao].CPF[3] -'0';
+ 
+    d3_cpf=dados[posicao].CPF[2] -'0';
+ 
+    d2_cpf=dados[posicao].CPF[1] -'0';
+ 
+    d1_cpf=dados[posicao].CPF[0] -'0';
+
+
+
+
+    id =  (dados[posicao].Idade_dia + dados[posicao].Idade_mes + dados[posicao].Idade_ano) * (d11_cpf+d10_cpf+d9_cpf+d8_cpf+d7_cpf+d6_cpf+d5_cpf+d4_cpf+d3_cpf+d2_cpf+d1_cpf);
+    
+    dados[posicao].ID = id;
+
+    
+    
+
+    
+    printf("Paciente esta incluido no atendimento prioritario prevista por lei ? (idosos a partir de 60 anos , gestantes, lactantes, pessoas com crianca de colo, pessoas obesas, pessoas com TEA - Transtorno do Espectro Autista)\n ");
+    
+    printf("\nCASO PACIENTE SE ENQUADRE NA LEI DE ATENDIMENTO PRIORITARIO DIGITE 1, CASO NAO DIGITE 2\n");
+    
+    scanf("%d" , &resposta_usuario);
+
+    while(resposta_usuario<1 || resposta_usuario>2)
+    {
+        printf("RESPOSTA INVALIDA, DIGITE NOVAMENTE\n");
+        scanf("%d" , &resposta_usuario);
+    }
+
+    if(resposta_usuario==1)
+    {
+        printf("CLASSIFICACAO DE RISCO DO PACIENTE:\n1)Vermelho=Emergente\n2)Laranja=Muito Urgente\n3)Amarelo=URGENTE\n4)Verde=Pouco Urgente\n5)Azul = Nao Urgente\n\nDigite a numeracao que corresponde com o risco do paciente\n");
+
+        scanf("%d" , &resposta_risco_prioridade_por_lei);
+
+        while(resposta_risco_prioridade_por_lei<1 || resposta_risco_prioridade_por_lei>5)
+        {
+            printf("\nResposta invalidade, digite novamente a numeracao que corresponde com o risco do paciente\n");
+            
+            scanf("%d" , &resposta_risco_prioridade_por_lei);
+        }
+
+        switch (resposta_risco_prioridade_por_lei)
+        {
+        case 1 :
+        Fila_prioridade_por_lei_emergente.push(id);
+        break;
+        
+        case 2:
+        Fila_prioridade_por_lei_muito_urgente.push(id);
+        break;
+
+        case 3 :
+        Fila_prioridade_por_lei_urgente.push(id);
+        break;
+        
+        case 4:
+        Fila_prioridade_por_lei_pouco_urgente.push(id);
+        break;
+
+        case 5:
+        Fila_prioridade_por_lei_nao_urgente.push(id);
+        break;
+
+        
+        default:
+            break;
+        }
+
+        
+
+
+    }
+    else
+    {
+         printf("CLASSIFICACAO DE RISCO DO PACIENTE:\n1)Vermelho=Emergente\n2)Laranja=Muito Urgente\n3)Amarelo=URGENTE\n4)Verde=Pouco Urgente\n5)Azul = Nao Urgente\n\nDigite a numeracao que corresponde com o risco do paciente\n");
+
+        scanf("%d" , &resposta_risco_normal);
+
+        while(resposta_risco_normal<1 || resposta_risco_normal>5)
+        {
+            printf("\nResposta invalidade, digite novamente a numeracao que corresponde com o risco do paciente\n");
+            
+            scanf("%d" , &resposta_risco_normal);
+        }
+
+        switch(resposta_risco_normal)
+        {
+        case 1:
+        Fila_normal_emergente.push(id);
+        break;
+
+        case 2:
+        Fila_normal_muito_urgente.push(id);
+        break;
+
+        case 3:
+        Fila_normal_urgente.push(id);
+        break;
+
+        case 4:
+        Fila_normal_pouco_urgente.push(id);
+        break;
+
+        case 5:
+        Fila_normal_nao_urgente.push(id);
+        break;
+
+            
+        
+        default:
+            break;
+        }
+
+    }
+    
+    
+
+
+}
 
 void flush_in()
 {
@@ -295,7 +460,7 @@ char espaco , confirmacao[1] ;
 
  
 
- //PAINEL DE CONFIRMACAO DOS DADOS DO PACIENTE CADASTRADO
+ //PAINEL  DADOS DE  CONFIRMACAO DOS DADOS DO PACIENTE CADASTRADO
 
  printf("DADOS DO PACIENTE\n");
  printf("1)NOME : %s\n" , dados[*posicao].Nome_Completo); // Nome
@@ -320,6 +485,9 @@ char espaco , confirmacao[1] ;
 //Caso os dados estejam certos 
  if((confirmacao[0]=='S'|| confirmacao[0]=='s'))
  {  
+    system("cls");
+    gerador_id_fila(dados, posicao_dados);
+
     printf("Dados gravados com suscesso\nAperte alguma tecla para o programa retornar ao menu\n");
     system("pause");
     system("cls");
@@ -443,6 +611,8 @@ char espaco , confirmacao[1] ;
 
     if(correcao==1)
     {   
+        system("cls");
+        gerador_id_fila(dados, posicao_dados);
         printf("Dados gravado com suscesso!\nAperte alguma tecla para retornar ao MENU\n");
         system("pause");
         system("cls");
@@ -521,7 +691,252 @@ int busca_nome(int *num_paciente)
 
 }
 
-int menu(int *p)
+void fila_atendimento(Fila_atendimento Fila_sistema)
+{
+    
+     
+    
+    int  i=0, i2=1 ;
+    
+    
+    
+
+    while(Fila_prioridade_por_lei_emergente.size()>0)
+    {   
+
+        if(Fila_sistema.M[i][0]==0)
+        {
+           Fila_sistema.M[i][0]=i2;
+           Fila_sistema.M[i][1]=Fila_prioridade_por_lei_emergente.front();
+           Fila_sistema.M[i][2]=1;
+        
+           i++;
+           i2++;
+
+           Fila_prioridade_por_lei_emergente.pop();
+        }
+        else
+        {   
+            
+                i++;
+            
+                
+            }
+            
+            
+    }
+
+    
+
+    while(Fila_prioridade_por_lei_muito_urgente.size()>0)
+    {
+        if(Fila_sistema.M[i][0]==0)
+        {
+        
+        Fila_sistema.M[i][0]=i2;
+        Fila_sistema.M[i][1]=Fila_prioridade_por_lei_muito_urgente.front();
+
+        i++;
+        i2++;
+
+        Fila_prioridade_por_lei_muito_urgente.pop();
+        }
+        else 
+        {
+            i++;
+        }
+    }
+
+    while(Fila_prioridade_por_lei_urgente.size()>0)
+    {   
+        if(Fila_sistema.M[i][0]==0)
+        {
+        Fila_sistema.M[i][0]=i2;
+        Fila_sistema.M[i][1]=Fila_prioridade_por_lei_urgente.front();
+
+        i++;
+        i2++;
+
+        Fila_prioridade_por_lei_urgente.pop();
+        }
+        else
+        {
+            i++;
+        }
+    }
+
+    while(Fila_prioridade_por_lei_pouco_urgente.size()>0)
+    {   
+
+        if(Fila_sistema.M[i][0]==0)
+        {
+        Fila_sistema.M[i][0]=i2;
+        Fila_sistema.M[i][1]=Fila_prioridade_por_lei_pouco_urgente.front();
+
+        i++;
+        i2++;
+
+        Fila_prioridade_por_lei_pouco_urgente.pop();
+        }
+        else
+        {
+            i++;
+        }
+
+    }
+
+    while(Fila_prioridade_por_lei_nao_urgente.size()>0)
+    {   
+        if(Fila_sistema.M[i][0]==0)
+        {
+        Fila_sistema.M[i][0]=i2;
+        Fila_sistema.M[i][1]=Fila_prioridade_por_lei_nao_urgente.front();
+
+        i++;
+        i2++;
+
+        Fila_prioridade_por_lei_nao_urgente.pop();
+        }
+        else 
+        {
+            i++;
+        }
+    }
+
+    while(Fila_normal_emergente.size()>0)
+    {
+        
+        if(Fila_sistema.M[i][0]==0)
+        {
+        Fila_sistema.M[i][0]=i2;
+        Fila_sistema.M[i][1]=Fila_normal_emergente.front();
+        
+        i++;
+        i2++;
+
+        Fila_normal_emergente.pop();
+        }
+        else
+        {
+            i++;
+
+        }
+
+    }
+
+    while(Fila_normal_muito_urgente.size()>0)
+    {
+        if(Fila_sistema.M[i][0]==0)
+        {
+        Fila_sistema.M[i][0]=i2;
+        Fila_sistema.M[i][1]=Fila_normal_muito_urgente.front();
+
+        i++;
+        i2++;
+
+        Fila_normal_muito_urgente.pop();
+        }
+        else
+        {
+            i++;
+        }
+    }
+
+    while(Fila_normal_urgente.size()>0)
+    {
+        if(Fila_sistema.M[i][0]==0)
+        {
+        Fila_sistema.M[i][0]=i2;
+        Fila_sistema.M[i][1]=Fila_normal_urgente.front();
+
+        i++;
+        i2++;
+
+        Fila_normal_urgente.pop();
+        }
+        else 
+        {
+            i++;
+        }
+    }
+
+    while(Fila_normal_pouco_urgente.size()>0)
+    {
+        
+        if(Fila_sistema.M[i][0]==0)
+        {
+
+        
+        Fila_sistema.M[i][0]=i2;
+        Fila_sistema.M[i][1]=Fila_normal_pouco_urgente.front();
+
+        i++;
+        i2++;
+
+        Fila_normal_pouco_urgente.pop();
+        }
+        else 
+        {
+            i++;
+        }
+
+    }
+
+    while(Fila_normal_nao_urgente.size()>0)
+    {
+        
+        if(Fila_sistema.M[i][0]==0)
+        {
+
+        
+        Fila_sistema.M[i][0]=i2;
+        Fila_sistema.M[i][1]=Fila_normal_nao_urgente.front();
+
+        i++;
+        i2++;
+
+        Fila_normal_nao_urgente.pop();
+        }
+        else 
+        {
+            i++;
+        }
+    }
+
+    if(i==0)
+    {
+       printf("FILA VAZIA\n");
+       system("pause");
+       system("cls");
+    }
+    else{
+
+
+    for(int i =0 ; i<900 && Fila_sistema.M[i][0]>0 ;i++)
+    {
+        
+        printf("POSICAO NA FILA %20d | ID DO PACIENTE %20d\n" , Fila_sistema.M[i][0] , Fila_sistema.M[i][1]); 
+
+       
+    }
+
+    
+    printf("pause");
+    printf("cls");
+
+    
+
+    }
+
+    
+
+
+
+    
+}
+
+
+int menu(int *p, Fila_atendimento Fila_sistema)
 {
     
     char pagina[12][21] , resposta_usuario_menu ;
@@ -661,6 +1076,11 @@ int menu(int *p)
 
     case '1':
        
+       fila_atendimento(Fila_sistema);
+       flush_in();
+
+       return menu(p, Fila_sistema);
+       
 
     case '2':
         
@@ -672,7 +1092,7 @@ int menu(int *p)
 
         flush_in();
 
-        return menu (p);
+        return menu (p, Fila_sistema);
 
     case '3':
         
@@ -682,7 +1102,7 @@ int menu(int *p)
         busca_nome(p);
 
         
-        return menu(p);
+        return menu(p,Fila_sistema);
 
        
     
@@ -714,7 +1134,7 @@ int main()
 
     //Identificao dados[quant_paciente];
 
-    menu(pont);
+    menu(pont, Fila_sistema);
 
     
 
